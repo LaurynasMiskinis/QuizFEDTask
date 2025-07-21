@@ -42,3 +42,21 @@
 	padding: 10px; 
 	width: full;
 }
+.EndDisplay{
+	display: grid;
+	grid-template-columns: repeat(13, 1fr);
+	grid-template-rows: repeat(9, 1fr);
+	height: 0vh;
+	visibility: hidden
+}
+.ScoreLabel{
+	grid-column: 2 / 13;
+	grid-row: 3 / 5;
+	border: 2px solid;
+	padding: 20px;
+	text-align: center;
+}
+.Counter{
+	grid-column: 13 / 14;
+	grid-row: 9 / 10;
+}

@@ -8,15 +8,15 @@
     <div class="MainWindow">
       <div class="MainWindowDisplay" id="main">
         <div class="Question" id="optionLabel">Loading...</div>
-        <button class="Option1" id="option1" onclick="incorrect()">...</button>
-        <button class="Option2" id="option2" onclick="incorrect()">...</button>
-        <button class="Option3" id="option3" onclick="correct()">...</button>
-        <div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
+        <button class="Option1" id="option1" onclick="incorrect()">Loading...</button>
+        <button class="Option2" id="option2" onclick="incorrect()">Loading...</button>
+        <button class="Option3" id="option3" onclick="correct()">Loading...</button>
+        <div class="Counter" id="counter">1/5</div>
       </div>
-      <div id="end" style="display: grid; grid-template-columns: repeat(13, 1fr); grid-template-rows: repeat(9, 1fr); height: 0vh; visibility: hidden">
-        <div id="result" style="grid-column: 2 / 13; grid-row: 3 / 5; border: 2px solid; padding: 20px; text-align: center;"></div>
-        <button style="grid-column: 6 / 9; grid-row: 6 / 7; padding: 10px; width: full" onclick="restart()">Play 1 more time</button>
-        <div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
+      <div class="EndDisplay" id="end">
+        <div class="ScoreLabel" id="result"></div>
+        <button class="Option2" onclick="restart()">Play 1 more time</button>
+        <div class="Counter" id="counter">1/5</div>
       </div>
     </div>
   </body>
