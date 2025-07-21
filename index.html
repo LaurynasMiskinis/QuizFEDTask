@@ -1,126 +1,23 @@
 <!DOCTYPE html>
 <html>
-<body>
-
-<div style="
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50vw;
-  height: 50vh;
-  border: 1px solid black;
-  box-shadow: 10px 5px 5px rgb(0 0 0 / 40%);
-  overflow: hidden;
-  background: white;
-">
-<div id="main" style="display: grid; grid-template-columns: repeat(13, 1fr); grid-template-rows: repeat(9, 1fr); height: auto; max-height: 100%">
-<div id="optionLabel" style="grid-column: 2 / 13; grid-row: 3 / 5; border: 2px solid; padding: 20px; text-align: center;" >Loading...</div>
-<button id="option1" onclick="incorrect()" style="grid-column: 2 / 5; grid-row: 6 / 7; adding: 10px; width: full">...</button>
-<button id="option2" onclick="incorrect()" style="grid-column: 6 / 9; grid-row: 6 / 7; padding: 10px; width: full">...</button>
-<button id="option3" onclick="correct()" style="grid-column: 10 / 13; grid-row: 6 / 7; padding: 10px; width: full">...</button>
-<div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
-</div>
-
-<div id="end" style="display: grid; grid-template-columns: repeat(13, 1fr); grid-template-rows: repeat(9, 1fr); height: 0vh; visibility: hidden">
-<div id="result" style="grid-column: 2 / 13; grid-row: 3 / 5; border: 2px solid; padding: 20px; text-align: center;" ></div>
-<button style="grid-column: 6 / 9; grid-row: 6 / 7; padding: 10px; width: full"
-
-onclick="
-  let parts = document.getElementById('counter').innerText.split('/');
-  if (parts[0] < parts[1]) {
-    document.getElementById('counter').innerText = (parseInt(parts[0]) + 1) + '/' + 5;
-  }else{
-	getQuestions().then(data => {
-      questions = data.results
-	  document.getElementById('main').style.height = 'auto';
-	  document.getElementById('main').style.visibility = 'visible'
-	  document.getElementById('end').style.height = '0vh';
-	  document.getElementById('end').style.visibility = 'hidden'
-	  document.getElementById('counter').innerText = '1/5';
-	  stage = 1;
-	  randomiseOptions();
-    });
-  }
-"
-
->Play 1 more time</button>
-<div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
-</div>
-</div>
-
-<script>
-  stage = 1
-  api = 'https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple'
-  optionIds = ['option1', 'option2', 'option3'];
-  function randomiseOptions() {
-    correctIndex = Math.floor(Math.random() * optionIds.length);
-	parts = document.getElementById('counter').innerText.split('/');
-    document.getElementById("optionLabel").innerText = questions[parts[0]-1]["question"]
-	let incorrectCnt = 0
-    optionIds.forEach((id, idx) => {
-      const el = document.getElementById(id);
-      if (idx === correctIndex) {
-        el.onclick = correct;
-		el.innerText = questions[parts[0]-1]["correct_answer"]
-      } else {
-        el.onclick = incorrect;
-		el.innerText = questions[parts[0]-1]["incorrect_answers"][incorrectCnt]
-		incorrectCnt = incorrectCnt + 1
-      }
-    });
-  };
-  async function getQuestions() {
-    while(true){
-		const response = await fetch(api);
-		if (response.status === 429) {
-			alert('Error 429. Rate limit exceeded. Please slow down.');
-			continue;
-		}
-		const data = await response.json();
-		return data;
-	}
-  }
-  questions = {}
-  getQuestions().then(data => {
-    questions = data.results
-	randomiseOptions();
-  });
-  correct = function() {
-    if (!questions){
-		return;
-	}
-	parts = document.getElementById('counter').innerText.split('/');
-	if (parts[0] < parts[1]) {
-		document.getElementById('counter').innerText = (parseInt(parts[0]) + 1) + '/' + 5;
-		stage = stage + 1;
-		randomiseOptions();
-	}else{
-		document.getElementById('result').innerText = ('You Answered '+(stage) + '/5 correctly');
-		document.getElementById('main').style.height = '0vh';
-		document.getElementById('main').style.visibility = 'hidden'
-		document.getElementById('end').style.height = 'auto';
-		document.getElementById('end').style.visibility = 'visible'
-	}
-  };
-  incorrect = function() {
-	if (!questions){
-		return;
-	}
-	parts = document.getElementById('counter').innerText.split('/');
-	if (parts[0] < parts[1]) {
-		document.getElementById('counter').innerText = (parseInt(parts[0]) + 1) + '/' + 5;
-		//stage = stage + 1;
-		randomiseOptions();
-	}else{
-		document.getElementById('result').innerText = ('You Answered '+(stage-1) + '/5 correctly');
-		document.getElementById('main').style.height = '0vh';
-		document.getElementById('main').style.visibility = 'hidden'
-		document.getElementById('end').style.height = 'auto';
-		document.getElementById('end').style.visibility = 'visible'
-	}
-  };
-</script>
-
-</body>
-</html> 
+  <head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="MainWindow">
+      <div class="MainWindowDisplay" id="main">
+        <div class="Question" id="optionLabel">Loading...</div>
+        <button class="Option1" id="option1" onclick="incorrect()">...</button>
+        <button class="Option2" id="option2" onclick="incorrect()">...</button>
+        <button class="Option3" id="option3" onclick="correct()">...</button>
+        <div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
+      </div>
+      <div id="end" style="display: grid; grid-template-columns: repeat(13, 1fr); grid-template-rows: repeat(9, 1fr); height: 0vh; visibility: hidden">
+        <div id="result" style="grid-column: 2 / 13; grid-row: 3 / 5; border: 2px solid; padding: 20px; text-align: center;"></div>
+        <button style="grid-column: 6 / 9; grid-row: 6 / 7; padding: 10px; width: full" onclick="restart()">Play 1 more time</button>
+        <div id="counter" style="grid-column: 13 / 14; grid-row: 9 / 10;">1/5</div>
+      </div>
+    </div>
+  </body>
+</html>
